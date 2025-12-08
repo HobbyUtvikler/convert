@@ -33,17 +33,19 @@ async function init () {
 
     const flags = parts[0];
     const description = parts.slice(2).join(" ");
-    const extension = parts[1].split(",")[0];
+    const extensions = parts[1].split(",");
 
-    supportedFormats.push({
-      name: description,
-      format: parts[1],
-      extension: extension,
-      mime: mime.getType(extension) || ("video/" + extension),
-      from: flags.includes("D"),
-      to: flags.includes("E"),
-      internal: extension
-    });
+    for (const extension of extensions) {
+      supportedFormats.push({
+        name: description + (extensions.length > 1 ? (" / " + extension) : ""),
+        format: extension,
+        extension: extension,
+        mime: mime.getType(extension) || ("video/" + extension),
+        from: flags.includes("D"),
+        to: flags.includes("E"),
+        internal: extension
+      });
+    }
 
   };
 
